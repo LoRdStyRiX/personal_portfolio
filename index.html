@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Portfolio — Your Name</title>
+    <meta
+      name="description"
+      content="A minimal modern portfolio with smooth animations"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              accent: "#000000",
+              'swiss-gray': '#F5F5F5',
+            },
+          },
+        },
+      };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/ScrollSmoother.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      * {
+        cursor: none;
+      }
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Arial', sans-serif;
+        letter-spacing: -0.01em;
+      }
+      .custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        will-change: transform;
+        transform-origin: center center;
+        mix-blend-mode: difference;
+      }
+      .cursor-follower {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        will-change: transform;
+        transform-origin: center center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .follower__inner__top {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: white;
+        transform: scale(1);
+        opacity: 0;
+        mix-blend-mode: blur;
+      }
+      .follower__content {
+        position: relative;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        opacity: 0;
+        z-index: 1;
+        mix-blend-mode: difference;
+      }
+      .link-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .link-hover:hover {
+        transform: translateY(-2px);
+      }
+      .reveal-text {
+        overflow: hidden;
+      }
+      .reveal-text span {
+        display: inline-block;
+      }
+      @media (max-width: 768px) {
+        * {
+          cursor: auto;
+        }
+        .custom-cursor,
+        .cursor-follower {
+          display: none;
+        }
+      }
+      #smooth-wrapper {
+        overflow: hidden;
+      }
+      #smooth-content {
+        overflow: visible;
+      }
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .gallery-item img {
+        transition: filter 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gallery-item:hover img {
+        filter: blur(8px) brightness(0.7);
+        transform: scale(1.05);
+      }
+      .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+      }
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+      
+      /* Navbar animations */
+      .nav-link {
+        position: relative;
+        overflow: hidden;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: black;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover::after {
+        transform: translateX(0);
+      }
+      
+      /* Burger menu animation */
+      .burger-line {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+      }
+      .burger-active .burger-line:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .burger-active .burger-line:nth-child(2) {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      .burger-active .burger-line:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+      
+      /* Language switcher */
+      .lang-btn {
+        position: relative;
+        overflow: hidden;
+      }
+      .lang-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: black;
+        transform: scale(0);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 50%;
+      }
+      .lang-btn:hover::before {
+        transform: scale(1);
+      }
+      .lang-btn span {
+        position: relative;
+        z-index: 1;
+        transition: color 0.3s ease;
+      }
+      .lang-btn:hover span {
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-black antialiased overflow-x-hidden">
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-follower">
+      <div class="follower__inner__top"></div>
+      <div class="follower__content"></div>
+    </div>
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+    <!-- NAVBAR -->
+    <header class="fixed top-0 w-full z-30 bg-white/80 backdrop-blur-md border-b border-black/10">
+      <div class="max-w-7xl mx-auto px-8 lg:px-16">
+        <div class="grid grid-cols-3 items-center h-20">
+          <!-- Left: Name -->
+          <div class="flex justify-start">
+            <a href="#hero" class="text-black font-medium text-base tracking-tight link-hover" data-scroll>
+              Your Name
+            </a>
+          </div>
+
+          <!-- Center: Navigation (Desktop) -->
+          <nav class="hidden md:flex items-center justify-center gap-12 text-sm font-normal text-black uppercase tracking-wider">
+            <a class="nav-link link-hover" href="#about" data-scroll>About</a>
+            <a class="nav-link link-hover" href="#projects" data-scroll>Projects</a>
+            <a class="nav-link link-hover" href="#contact" data-scroll>Contact</a>
+          </nav>
+
+          <!-- Right: Language Switcher -->
+          <div class="flex justify-end items-center gap-3">
+            <button class="lang-btn w-10 h-10 rounded-full border border-black/20 flex items-center justify-center hover:border-black transition-colors duration-300">
+              <span class="text-xs font-medium uppercase">EN</span>
+            </button>
+            
+            <!-- Mobile Menu Toggle -->
+            <button id="menuToggle" class="md:hidden text-black w-10 h-10 flex flex-col items-center justify-center gap-2">
+              <span class="burger-line w-6 h-0.5 bg-black block"></span>
+              <span class="burger-line w-6 h-0.5 bg-black block"></span>
+              <span class="burger-line w-6 h-0.5 bg-black block"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="md:hidden hidden bg-white/95 backdrop-blur-lg border-t border-black/10">
+        <div class="px-8 py-8 space-y-6">
+          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-300" href="#about" data-scroll>About</a>
+          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-300" href="#projects" data-scroll>Projects</a>
+          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-300" href="#contact" data-scroll>Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="hero" class="h-screen flex items-center justify-center relative overflow-hidden bg-white">
+        
+        <div class="max-w-6xl mx-auto px-8 lg:px-16 relative z-10">
+          <div class="hero-content">
+            
+            
+            <h1 class="text-7xl sm:text-8xl lg:text-9xl xl:text-[11rem] font-normal leading-[0.9] mb-20 reveal-text tracking-tight">
+              <span class="hero-word">rei's</span><br/>
+              <span class="hero-word">personal</span><br/>
+              <span class="hero-word">website</span>
+            </h1>
+            
+            <div class="max-w-2xl mb-20 overflow-hidden">
+              <p class="hero-desc opacity-0 text-xl text-black/70 font-normal leading-relaxed">
+                womp womp
+              </p>
+            </div>
+
+            <div class="hero-cta opacity-0">
+              <a
+                href="#projects"
+                data-scroll
+                class="inline-block px-12 py-5 bg-black text-white text-xs tracking-[0.2em] uppercase font-medium hover:bg-black/80 transition-all duration-300 link-hover"
+              >Explore Work</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute bottom-16 left-1/2 transform -translate-x-1/2 scroll-indicator">
+          <div class="w-6 h-10 border-2 border-black/30 rounded-full flex items-start justify-center p-2">
+            <div class="w-1 h-3 bg-black/30 rounded-full animate-bounce"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="py-40 relative bg-swiss-gray">
+        <div class="max-w-6xl mx-auto px-8 lg:px-16">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+            <div class="about-text lg:col-span-7">
+              <h2 class="text-6xl sm:text-7xl lg:text-8xl font-normal mb-12 leading-[0.95] tracking-tight">
+                About
+              </h2>
+              <p class="text-2xl text-black leading-relaxed font-normal mb-8">
+                I'm a developer passionate about creating seamless, interactive web experiences that feel alive.
+              </p>
+              <p class="text-lg text-black/60 leading-relaxed font-normal">
+                Every project is an opportunity to push boundaries with modern tools, thoughtful animations, and clean code.
+              </p>
+            </div>
+
+            <div class="about-skills space-y-4 lg:col-span-5">
+              <div class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-300 border border-black/5">
+                <h3 class="text-xl font-medium mb-2 uppercase tracking-wider">Modern Frameworks</h3>
+                <p class="text-sm font-normal opacity-60">React, Vue, Next.js</p>
+              </div>
+              <div class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-300 border border-black/5">
+                <h3 class="text-xl font-medium mb-2 uppercase tracking-wider">Design Systems</h3>
+                <p class="text-sm font-normal opacity-60">TailwindCSS, Component Libraries</p>
+              </div>
+              <div class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-300 border border-black/5">
+                <h3 class="text-xl font-medium mb-2 uppercase tracking-wider">Motion & Animation</h3>
+                <p class="text-sm font-normal opacity-60">GSAP, Framer Motion</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="py-40 bg-white">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+          <div class="mb-24 projects-header">
+            <h2 class="text-6xl sm:text-7xl lg:text-8xl font-normal mb-8 tracking-tight leading-[0.95]">Selected Work</h2>
+            <p class="text-black/50 font-normal text-lg">Hover to reveal</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Gallery Item 1 -->
+            <div class="gallery-item aspect-square followerchangetest border border-black/10" data-follower-text="View Project">
+              <img
+                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop"
+                alt="Minimal Commerce"
+                class="w-full h-full object-cover"
+              />
+              <div class="gallery-overlay">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-medium mb-2 uppercase tracking-wider">Minimal Commerce</h3>
+                  <p class="text-xs tracking-[0.2em] uppercase opacity-70">E-commerce Platform</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery Item 2 -->
+            <div class="gallery-item aspect-square followerchangetest border border-black/10" data-follower-text="View Project">
+              <img
+                src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=800&auto=format&fit=crop"
+                alt="Creative Studio"
+                class="w-full h-full object-cover"
+              />
+              <div class="gallery-overlay">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-medium mb-2 uppercase tracking-wider">Creative Studio</h3>
+                  <p class="text-xs tracking-[0.2em] uppercase opacity-70">Agency Website</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery Item 3 -->
+            <div class="gallery-item aspect-square followerchangetest border border-black/10" data-follower-text="View Project">
+              <img
+                src="https://images.unsplash.com/photo-1505685296765-3a2736de412f?q=80&w=800&auto=format&fit=crop"
+                alt="Motion Dashboard"
+                class="w-full h-full object-cover"
+              />
+              <div class="gallery-overlay">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-medium mb-2 uppercase tracking-wider">Motion Dashboard</h3>
+                  <p class="text-xs tracking-[0.2em] uppercase opacity-70">Analytics Platform</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery Item 4 -->
+            <div class="gallery-item aspect-square followerchangetest border border-black/10" data-follower-text="View Project">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"
+                alt="Data Visualizer"
+                class="w-full h-full object-cover"
+              />
+              <div class="gallery-overlay">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-medium mb-2 uppercase tracking-wider">Data Visualizer</h3>
+                  <p class="text-xs tracking-[0.2em] uppercase opacity-70">Analytics Tool</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery Item 5 -->
+            <div class="gallery-item aspect-square followerchangetest border border-black/10" data-follower-text="View Project">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
+                alt="Finance App"
+                class="w-full h-full object-cover"
+              />
+              <div class="gallery-overlay">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-medium mb-2 uppercase tracking-wider">Finance App</h3>
+                  <p class="text-xs tracking-[0.2em] uppercase opacity-70">Mobile Application</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery Item 6 -->
+            <div class="gallery-item aspect-square followerchangetest border border-black/10" data-follower-text="View Project">
+              <img
+                src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=800&auto=format&fit=crop"
+                alt="Brand Identity"
+                class="w-full h-full object-cover"
+              />
+              <div class="gallery-overlay">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-medium mb-2 uppercase tracking-wider">Brand Identity</h3>
+                  <p class="text-xs tracking-[0.2em] uppercase opacity-70">Design System</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="py-40 relative overflow-hidden bg-swiss-gray">
+        
+        <div class="max-w-5xl mx-auto px-8 lg:px-16 relative z-10">
+          <div class="mb-20 contact-header">
+            <h2 class="text-6xl sm:text-7xl lg:text-8xl font-normal mb-8 tracking-tight leading-[0.95]">Let's Connect</h2>
+            <p class="text-black/60 font-normal text-lg">Have a project in mind? Let's talk.</p>
+          </div>
+
+          <div class="contact-form max-w-2xl">
+            <div class="space-y-12">
+              <div class="form-field">
+                <input
+                  type="text"
+                  class="w-full px-0 py-6 bg-transparent border-b-2 border-black/20 focus:border-black outline-none transition-colors duration-300 text-lg font-normal"
+                  placeholder="Your Name"
+                />
+              </div>
+              <div class="form-field">
+                <input
+                  type="email"
+                  class="w-full px-0 py-6 bg-transparent border-b-2 border-black/20 focus:border-black outline-none transition-colors duration-300 text-lg font-normal"
+                  placeholder="your.email@example.com"
+                />
+              </div>
+              <div class="form-field">
+                <textarea
+                  rows="4"
+                  class="w-full px-0 py-6 bg-transparent border-b-2 border-black/20 focus:border-black outline-none transition-colors duration-300 text-lg font-normal resize-none"
+                  placeholder="Tell me about your project"
+                ></textarea>
+              </div>
+              <div class="pt-8">
+                <button
+                  type="submit"
+                  class="px-12 py-5 bg-black text-white text-xs tracking-[0.2em] uppercase font-medium hover:bg-black/80 transition-all duration-300 link-hover"
+                >
+                  Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="py-16 border-t-2 border-black/10 bg-white">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-black/50 font-normal">
+            <div>© <span id="year"></span> Your Name</div>
+            <div>Crafted with care</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+    </div>
+    </div>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, ScrollSmoother);
+
+      // Initialize ScrollSmoother
+      let smoother;
+      
+      function initializeSmoother() {
+        if (window.innerWidth > 768) {
+          smoother = ScrollSmoother.create({
+            wrapper: '#smooth-wrapper',
+            content: '#smooth-content',
+            smooth: 1.4,
+            effects: true,
+            smoothTouch: 0.1,
+            normalizeScroll: true,
+          });
+        }
+      }
+
+      document.body.style.overflow = 'auto';
+      
+      setTimeout(() => {
+        initializeSmoother();
+      }, 100);
+      
+      startPageAnimations();
+
+      // Page animations
+      function startPageAnimations() {
+        gsap.set('.subtitle', { opacity: 0, y: 20 });
+        gsap.set('.hero-word', { opacity: 1, y: 0 });
+        gsap.set('.hero-desc', { opacity: 0, y: 20 });
+        gsap.set('.hero-cta', { opacity: 0, y: 20 });
+        
+        gsap.to('.subtitle', { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1, 
+          delay: 0.2,
+          ease: 'power3.out'
+        });
+        
+        document.querySelectorAll('.hero-word').forEach((word, i) => {
+          gsap.from(word, {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            delay: 0.4 + i * 0.2,
+            ease: 'power3.out'
+          });
+        });
+
+        gsap.to('.hero-desc', { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1, 
+          delay: 1.2,
+          ease: 'power3.out'
+        });
+        
+        gsap.to('.hero-cta', { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1, 
+          delay: 1.5,
+          ease: 'power3.out'
+        });
+
+        // Scroll indicator fade
+        gsap.to('.scroll-indicator', {
+          scrollTrigger: {
+            trigger: '#hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+          opacity: 0,
+        });
+      }
+
+      // Custom cursor
+      const cursor = document.querySelector('.custom-cursor');
+      const follower = document.querySelector('.cursor-follower');
+      const followerText = document.querySelector('.follower__content');
+      
+      let mouseX = 0, mouseY = 0;
+      let isHovering = false;
+
+      gsap.set(".cursor-follower", {xPercent: -50, yPercent: -50});
+      gsap.set(".custom-cursor", {xPercent: -50, yPercent: -50});
+
+      let cursorXTo = gsap.quickTo(".custom-cursor", "x", {duration: 0.3, ease: "power3"}),
+          cursorYTo = gsap.quickTo(".custom-cursor", "y", {duration: 0.3, ease: "power3"}),
+          followerXTo = gsap.quickTo(".cursor-follower", "x", {duration: 0.6, ease: "power3"}),
+          followerYTo = gsap.quickTo(".cursor-follower", "y", {duration: 0.6, ease: "power3"});
+
+      window.addEventListener('mousemove', (e) => {
+        cursorXTo(e.clientX);
+        cursorYTo(e.clientY);
+        followerXTo(e.clientX);
+        followerYTo(e.clientY);
+      }, { passive: true });
+
+      // Follower animation
+      let followerAnim = gsap.timeline({paused: true});
+
+      followerAnim.to('.follower__inner__top', {
+        scale: 2,
+        opacity: 1,
+        backgroundColor: 'black',
+        duration: 0.4,
+        ease: 'power2.out',
+      }, 0);
+      followerAnim.to('.follower__content', {
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out',
+      }, 0.15);
+
+      function animateFollower(direction = 'in') {
+        if (direction == 'in') {
+          followerAnim.timeScale(1).play();
+        } else {
+          followerAnim.timeScale(1.5).reverse();
+        }
+      }
+
+      // Hover effects for gallery items
+      document.querySelectorAll('.followerchangetest').forEach(item => {
+        item.addEventListener('mouseenter', (event) => {
+          var text = item.dataset.followerText;
+          if (!text || text == 0) {
+            text = "Click";
+          }
+          followerText.innerHTML = text;
+          animateFollower('in');
+          
+          gsap.to(cursor, {
+            scale: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        });
+
+        item.addEventListener('mouseleave', (event) => {
+          animateFollower('out');
+          
+          gsap.to(cursor, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        });
+      });
+
+      // Hover effects for interactive elements
+      function addCursorHoverEffect(element) {
+        if (element.classList.contains('followerchangetest')) {
+          return;
+        }
+        
+        element.addEventListener('mouseenter', () => {
+          isHovering = true;
+          gsap.to(cursor, {
+            scale: 3,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          isHovering = false;
+          gsap.to(cursor, {
+            scale: 1,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+        });
+      }
+
+      const interactiveSelectors = 'a, button, input, textarea, .skill-item';
+      
+      function applyHoverEffects() {
+        document.querySelectorAll(interactiveSelectors).forEach(addCursorHoverEffect);
+      }
+      
+      applyHoverEffects();
+      setTimeout(applyHoverEffects, 100);
+      setTimeout(applyHoverEffects, 500);
+      setTimeout(applyHoverEffects, 1000);
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) {
+              if (node.matches && node.matches(interactiveSelectors)) {
+                addCursorHoverEffect(node);
+              }
+              node.querySelectorAll && node.querySelectorAll(interactiveSelectors).forEach(addCursorHoverEffect);
+            }
+          });
+        });
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      // Scroll animations
+      gsap.from('.about-text', {
+        scrollTrigger: {
+          trigger: '.about-text',
+          start: 'top 80%',
+        },
+        x: -50,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power3.out'
+      });
+
+      gsap.from('.skill-item', {
+        scrollTrigger: {
+          trigger: '.about-skills',
+          start: 'top 80%',
+        },
+        x: 50,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.2,
+        ease: 'power3.out'
+      });
+
+      gsap.from('.projects-header', {
+        scrollTrigger: {
+          trigger: '.projects-header',
+          start: 'top 80%',
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power3.out'
+      });
+
+      gsap.utils.toArray('.gallery-item').forEach((item, i) => {
+        gsap.from(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 90%',
+          },
+          y: 60,
+          opacity: 0,
+          duration: 1,
+          delay: (i % 3) * 0.1,
+          ease: 'power3.out'
+        });
+      });
+
+      gsap.from('.contact-header', {
+        scrollTrigger: {
+          trigger: '.contact-header',
+          start: 'top 80%',
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power3.out'
+      });
+
+      gsap.from('.form-field', {
+        scrollTrigger: {
+          trigger: '.contact-form',
+          start: 'top 80%',
+        },
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power3.out'
+      });
+
+      // Smooth scroll
+      document.querySelectorAll("[data-scroll]").forEach((el) => {
+        el.addEventListener("click", (e) => {
+          const href = el.getAttribute("href");
+          if (!href || !href.startsWith("#")) return;
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (!target) return;
+          
+          if (smoother) {
+            smoother.scrollTo(target, true, "top 100px");
+          } else {
+            gsap.to(window, {
+              duration: 1.8,
+              scrollTo: { y: target, offsetY: 100 },
+              ease: "power3.inOut",
+            });
+          }
+          document.getElementById("mobileMenu").classList.add("hidden");
+        });
+      });
+
+      // Mobile menu
+      const menuToggle = document.getElementById("menuToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+      menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
