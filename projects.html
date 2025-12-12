@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Projects — Your Name</title>
+    <meta
+      name="description"
+      content="Explore my portfolio of web development projects"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              accent: "#000000",
+              'swiss-gray': '#F5F5F5',
+            },
+          },
+        },
+      };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/ScrollSmoother.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      * {
+        cursor: none;
+      }
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Arial', sans-serif;
+        letter-spacing: -0.01em;
+      }
+      .custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        will-change: transform;
+        transform-origin: center center;
+        mix-blend-mode: difference;
+      }
+      .link-hover {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .link-hover:hover {
+        transform: translateY(-2px);
+      }
+      @media (max-width: 768px) {
+        * {
+          cursor: auto;
+        }
+        .custom-cursor,
+        .project-preview-card {
+          display: none !important;
+        }
+      }
+      #smooth-wrapper {
+        overflow: hidden;
+      }
+      #smooth-content {
+        overflow: visible;
+      }
+      
+      .nav-link {
+        position: relative;
+        overflow: hidden;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: black;
+        transform: translateX(-100%);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover::after {
+        transform: translateX(0);
+      }
+      
+      .burger-line {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+      }
+      .burger-active .burger-line:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .burger-active .burger-line:nth-child(2) {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      .burger-active .burger-line:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+      
+      .lang-btn {
+        position: relative;
+        overflow: hidden;
+      }
+      .lang-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: black;
+        transform: scale(0);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 50%;
+      }
+      .lang-btn:hover::before {
+        transform: scale(1);
+      }
+      .lang-btn span {
+        position: relative;
+        z-index: 1;
+        transition: color 0.5s ease;
+      }
+      .lang-btn:hover span {
+        color: white;
+      }
+
+      .project-row {
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+      }
+
+      .project-row:hover {
+        background: rgba(0,0,0,0.02);
+        border-color: rgba(0,0,0,0.3);
+      }
+
+      .project-row:hover .project-title {
+        transform: translateX(10px);
+      }
+
+      .project-title {
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .project-number {
+        font-variant-numeric: tabular-nums;
+        color: rgba(0,0,0,0.3);
+        transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .project-row:hover .project-number {
+        color: rgba(0,0,0,0.6);
+      }
+
+      .project-preview-card {
+        position: fixed;
+        width: 400px;
+        height: 300px;
+        pointer-events: none;
+        z-index: 50;
+        opacity: 0;
+        border: 1px solid rgba(0,0,0,0.1);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      }
+
+      .project-preview-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      @media (max-width: 1024px) {
+        .project-preview-card {
+          width: 300px;
+          height: 225px;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-black antialiased overflow-x-hidden">
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Project Preview Card -->
+    <div class="project-preview-card">
+      <img src="" alt="" id="previewImage" />
+    </div>
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+
+    <!-- NAVBAR -->
+    <header class="fixed top-0 w-full z-30 bg-white/80 backdrop-blur-md border-b border-black/10">
+      <div class="max-w-7xl mx-auto px-8 lg:px-16">
+        <div class="grid grid-cols-3 items-center h-20">
+          <div class="flex justify-start">
+            <a href="index.html" class="text-black font-medium text-base tracking-tight link-hover">
+              Your Name
+            </a>
+          </div>
+
+          <nav class="hidden md:flex items-center justify-center gap-12 text-sm font-normal text-black uppercase tracking-wider">
+            <a class="nav-link link-hover" href="index.html">Home</a>
+            <a class="nav-link link-hover" href="about.html">About</a>
+            <a class="nav-link link-hover" href="contact.html">Contact</a>
+          </nav>
+
+          <div class="flex justify-end items-center gap-3">
+            <button class="lang-btn w-10 h-10 rounded-full border border-black/20 flex items-center justify-center hover:border-black transition-colors duration-300">
+              <span class="text-xs font-medium uppercase">EN</span>
+            </button>
+            
+            <button id="menuToggle" class="md:hidden text-black w-10 h-10 flex flex-col items-center justify-center gap-2">
+              <span class="burger-line w-6 h-0.5 bg-black block"></span>
+              <span class="burger-line w-6 h-0.5 bg-black block"></span>
+              <span class="burger-line w-6 h-0.5 bg-black block"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mobileMenu" class="md:hidden hidden bg-white/95 backdrop-blur-lg border-t border-black/10">
+        <div class="px-8 py-8 space-y-6">
+          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="index.html">Home</a>
+          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="about.html">About</a>
+          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="contact.html">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- PROJECTS HERO -->
+      <section class="pt-40 pb-12 bg-white">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+          <div class="projects-header">
+            <h1 class="text-7xl sm:text-8xl lg:text-9xl font-normal mb-8 leading-[0.95] tracking-tight">
+              Projects
+            </h1>
+            <p class="text-xl text-black/60 font-normal">Selected works 2023—2024</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS INDEX LIST -->
+      <section class="py-20 bg-white min-h-screen">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+          <div id="projectsList" class="space-y-0">
+            
+            <!-- Project Row 1 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">01</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Minimal Commerce</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">E-commerce</span>
+                <span class="text-sm text-black/50">2024</span>
+              </div>
+            </div>
+
+            <!-- Project Row 2 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">02</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Creative Studio</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">Agency</span>
+                <span class="text-sm text-black/50">2024</span>
+              </div>
+            </div>
+
+            <!-- Project Row 3 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1505685296765-3a2736de412f?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">03</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Motion Dashboard</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">Analytics</span>
+                <span class="text-sm text-black/50">2023</span>
+              </div>
+            </div>
+
+            <!-- Project Row 4 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">04</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Data Visualizer</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">Analytics</span>
+                <span class="text-sm text-black/50">2023</span>
+              </div>
+            </div>
+
+            <!-- Project Row 5 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">05</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Finance App</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">Mobile</span>
+                <span class="text-sm text-black/50">2023</span>
+              </div>
+            </div>
+
+            <!-- Project Row 6 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">06</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Brand Identity</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">Design</span>
+                <span class="text-sm text-black/50">2023</span>
+              </div>
+            </div>
+
+            <!-- Project Row 7 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">07</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Social Platform</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">Web App</span>
+                <span class="text-sm text-black/50">2023</span>
+              </div>
+            </div>
+
+            <!-- Project Row 8 -->
+            <div class="project-row py-8 flex items-center justify-between gap-8" 
+                 data-image="https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=800&auto=format&fit=crop">
+              <div class="flex items-baseline gap-8 flex-1">
+                <span class="project-number text-2xl font-normal">08</span>
+                <h3 class="project-title text-4xl lg:text-6xl font-normal tracking-tight">Portfolio Site</h3>
+              </div>
+              <div class="hidden md:flex items-center gap-12">
+                <span class="text-sm uppercase tracking-wider text-black/50">Web Design</span>
+                <span class="text-sm text-black/50">2023</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <footer class="py-16 border-t-2 border-black/10 bg-white">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-black/50 font-normal">
+            <div>© <span id="year"></span> Your Name</div>
+            <div>Crafted with care</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+    </div>
+    </div>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, ScrollSmoother);
+
+      let smoother;
+      let animationsInitialized = false;
+
+      // Wait for page to be fully loaded
+      window.addEventListener('load', () => {
+        initializePage();
+      });
+
+      function initializePage() {
+        // Initialize ScrollSmoother first
+        if (window.innerWidth > 768) {
+          smoother = ScrollSmoother.create({
+            wrapper: '#smooth-wrapper',
+            content: '#smooth-content',
+            smooth: 2.5,
+            effects: true,
+            smoothTouch: 0.1,
+            normalizeScroll: true,
+          });
+        }
+
+        // Wait a bit for ScrollSmoother to settle, then start animations
+        setTimeout(() => {
+          startPageAnimations();
+        }, 200);
+      }
+
+      function startPageAnimations() {
+        if (animationsInitialized) return;
+        animationsInitialized = true;
+
+        // Header animations
+        gsap.from('.projects-header h1', {
+          y: 100,
+          opacity: 0,
+          duration: 1.8,
+          ease: 'power2.out'
+        });
+
+        gsap.from('.projects-header p', {
+          y: 30,
+          opacity: 0,
+          duration: 1.5,
+          delay: 0.3,
+          ease: 'power2.out'
+        });
+
+        // Kill any existing ScrollTriggers for project rows
+        ScrollTrigger.getAll().forEach(trigger => {
+          if (trigger.vars && trigger.vars.trigger && trigger.vars.trigger.classList.contains('project-row')) {
+            trigger.kill();
+          }
+        });
+
+        // Improved project rows animation - smooth fade-in without scrub
+        gsap.utils.toArray('.project-row').forEach((row, i) => {
+          // Set initial state
+          gsap.set(row, { 
+            y: 80, 
+            opacity: 0 
+          });
+          
+          // Create smooth animation that triggers once
+          gsap.to(row, {
+            y: 0,
+            opacity: 1,
+            duration: 0.5,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: row,
+              start: 'top 95%',
+              end: 'top 70%',
+              toggleActions: 'play play play play',
+              once: true, // Animation only happens once
+            }
+          });
+        });
+
+        // Refresh ScrollTrigger after setup
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 100);
+      }
+
+      // Custom cursor
+      const cursor = document.querySelector('.custom-cursor');
+      const previewCard = document.querySelector('.project-preview-card');
+      const previewImage = document.getElementById('previewImage');
+
+      gsap.set(".custom-cursor", {xPercent: -50, yPercent: -50});
+
+      let cursorXTo = gsap.quickTo(".custom-cursor", "x", {duration: 0.5, ease: "power2"}),
+          cursorYTo = gsap.quickTo(".custom-cursor", "y", {duration: 0.5, ease: "power2"});
+
+      let cardXTo = gsap.quickTo(".project-preview-card", "x", {duration: 0.6, ease: "power2"}),
+          cardYTo = gsap.quickTo(".project-preview-card", "y", {duration: 0.6, ease: "power2"});
+
+      window.addEventListener('mousemove', (e) => {
+        cursorXTo(e.clientX);
+        cursorYTo(e.clientY);
+        
+        cardXTo(e.clientX + 30);
+        cardYTo(e.clientY + 30);
+      }, { passive: true });
+
+      // Project row hover effects
+      const projectRows = document.querySelectorAll('.project-row');
+      
+      projectRows.forEach(row => {
+        row.addEventListener('mouseenter', (e) => {
+          const imageSrc = row.dataset.image;
+          previewImage.src = imageSrc;
+          
+          gsap.to(previewCard, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+
+          gsap.to(cursor, {
+            scale: 3,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+        });
+
+        row.addEventListener('mouseleave', () => {
+          gsap.to(previewCard, {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.4,
+            ease: 'power2.in'
+          });
+
+          gsap.to(cursor, {
+            scale: 1,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+        });
+      });
+
+      // Hover effects for other interactive elements
+      function addCursorHoverEffect(element) {
+        element.addEventListener('mouseenter', () => {
+          gsap.to(cursor, {
+            scale: 3,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          gsap.to(cursor, {
+            scale: 1,
+            duration: 0.6,
+            ease: 'power2.out'
+          });
+        });
+      }
+
+      const interactiveSelectors = 'a, button';
+      document.querySelectorAll(interactiveSelectors).forEach(addCursorHoverEffect);
+
+      // Mobile menu
+      const menuToggle = document.getElementById("menuToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+      menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+        menuToggle.classList.toggle("burger-active");
+      });
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
