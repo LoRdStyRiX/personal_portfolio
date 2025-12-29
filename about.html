@@ -4,10 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>About — Your Name</title>
-    <meta
-      name="description"
-      content="Learn more about me and my skills"
-    />
+    <meta name="description" content="Learn more about me and my skills" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -16,7 +13,25 @@
           extend: {
             colors: {
               accent: "#000000",
-              'swiss-gray': '#F5F5F5',
+              "swiss-gray": "#F5F5F5",
+            },
+            screens: {
+              sm: "600px",
+              md: "840px",
+              lg: "1024px",
+              xl: "1440px",
+            },
+            maxWidth: {
+              "mdc-sm": "600px",
+              "mdc-md": "840px",
+              "mdc-lg": "1024px",
+              "mdc-xl": "1440px",
+            },
+            spacing: {
+              "mdc-margin-xs": "1rem", // 16px
+              "mdc-margin-sm": "1.5rem", // 24px
+              "mdc-gutter-xs": "1rem",
+              "mdc-gutter-sm": "1.5rem",
             },
           },
         },
@@ -30,7 +45,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       html {
@@ -40,7 +58,8 @@
         cursor: none;
       }
       body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Arial', sans-serif;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont,
+          "Helvetica Neue", "Arial", sans-serif;
         letter-spacing: -0.01em;
       }
       .custom-cursor {
@@ -115,13 +134,13 @@
       #smooth-content {
         overflow: visible;
       }
-      
+
       .nav-link {
         position: relative;
         overflow: hidden;
       }
       .nav-link::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -2px;
         left: 0;
@@ -134,7 +153,7 @@
       .nav-link:hover::after {
         transform: translateX(0);
       }
-      
+
       .burger-line {
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         transform-origin: center;
@@ -149,13 +168,13 @@
       .burger-active .burger-line:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
       }
-      
+
       .lang-btn {
         position: relative;
         overflow: hidden;
       }
       .lang-btn::before {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
         background: black;
@@ -194,148 +213,265 @@
 
     <div id="smooth-wrapper">
       <div id="smooth-content">
+        <!-- NAVBAR -->
+        <header
+          class="fixed top-0 w-full z-30 bg-white/80 backdrop-blur-md border-b border-black/10"
+        >
+          <div
+            class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+          >
+            <div class="grid grid-cols-3 items-center h-20">
+              <div class="flex justify-start">
+                <a
+                  href="index.html"
+                  class="text-black font-medium text-base tracking-tight link-hover"
+                >
+                  Your Name
+                </a>
+              </div>
 
-    <!-- NAVBAR -->
-    <header class="fixed top-0 w-full z-30 bg-white/80 backdrop-blur-md border-b border-black/10">
-      <div class="max-w-7xl mx-auto px-8 lg:px-16">
-        <div class="grid grid-cols-3 items-center h-20">
-          <div class="flex justify-start">
-            <a href="index.html" class="text-black font-medium text-base tracking-tight link-hover">
-              Your Name
-            </a>
+              <nav
+                class="hidden md:flex items-center justify-center gap-12 text-sm font-normal text-black uppercase tracking-wider"
+              >
+                <a class="nav-link link-hover" href="index.html">Home</a>
+                <a class="nav-link link-hover" href="projects.html">Projects</a>
+                <a class="nav-link link-hover" href="contact.html">Contact</a>
+              </nav>
+
+              <div class="flex justify-end items-center gap-3">
+                <button
+                  class="lang-btn w-10 h-10 rounded-full border border-black/20 flex items-center justify-center hover:border-black transition-colors duration-300"
+                >
+                  <span class="text-xs font-medium uppercase">EN</span>
+                </button>
+
+                <button
+                  id="menuToggle"
+                  class="md:hidden text-black w-10 h-10 flex flex-col items-center justify-center gap-2"
+                >
+                  <span class="burger-line w-6 h-0.5 bg-black block"></span>
+                  <span class="burger-line w-6 h-0.5 bg-black block"></span>
+                  <span class="burger-line w-6 h-0.5 bg-black block"></span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <nav class="hidden md:flex items-center justify-center gap-12 text-sm font-normal text-black uppercase tracking-wider">
-            <a class="nav-link link-hover" href="index.html">Home</a>
-            <a class="nav-link link-hover" href="projects.html">Projects</a>
-            <a class="nav-link link-hover" href="contact.html">Contact</a>
-          </nav>
-
-          <div class="flex justify-end items-center gap-3">
-            <button class="lang-btn w-10 h-10 rounded-full border border-black/20 flex items-center justify-center hover:border-black transition-colors duration-300">
-              <span class="text-xs font-medium uppercase">EN</span>
-            </button>
-            
-            <button id="menuToggle" class="md:hidden text-black w-10 h-10 flex flex-col items-center justify-center gap-2">
-              <span class="burger-line w-6 h-0.5 bg-black block"></span>
-              <span class="burger-line w-6 h-0.5 bg-black block"></span>
-              <span class="burger-line w-6 h-0.5 bg-black block"></span>
-            </button>
+          <div
+            id="mobileMenu"
+            class="md:hidden hidden bg-white/95 backdrop-blur-lg border-t border-black/10"
+          >
+            <div class="px-mdc-margin-xs py-8 space-y-6">
+              <a
+                class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500"
+                href="index.html"
+                >Home</a
+              >
+              <a
+                class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500"
+                href="projects.html"
+                >Projects</a
+              >
+              <a
+                class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500"
+                href="contact.html"
+                >Contact</a
+              >
+            </div>
           </div>
-        </div>
-      </div>
+        </header>
 
-      <div id="mobileMenu" class="md:hidden hidden bg-white/95 backdrop-blur-lg border-t border-black/10">
-        <div class="px-8 py-8 space-y-6">
-          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="index.html">Home</a>
-          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="projects.html">Projects</a>
-          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="contact.html">Contact</a>
-        </div>
-      </div>
-    </header>
+        <main>
+          <!-- ABOUT HERO -->
+          <section class="pt-40 pb-20 bg-white">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+            >
+              <h1
+                class="about-title text-7xl sm:text-8xl lg:text-9xl font-normal mb-12 leading-[0.95] tracking-tight"
+              >
+                About Me
+              </h1>
+            </div>
+          </section>
 
-    <main>
-      <!-- ABOUT HERO -->
-      <section class="pt-40 pb-20 bg-white">
-        <div class="max-w-6xl mx-auto px-8 lg:px-16">
-          <h1 class="about-title text-7xl sm:text-8xl lg:text-9xl font-normal mb-12 leading-[0.95] tracking-tight">
-            About Me
-          </h1>
-        </div>
-      </section>
+          <!-- ABOUT CONTENT -->
+          <section class="pb-40 pt-40 bg-swiss-gray">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+            >
+              <div
+                class="grid grid-cols-1 md:grid-cols-12 gap-mdc-gutter-xs md:gap-mdc-gutter-sm items-start"
+              >
+                <div class="about-text md:col-span-7">
+                  <h2
+                    class="text-4xl sm:text-5xl lg:text-6xl font-normal mb-8 leading-[1.1] tracking-tight"
+                  >
+                    Hello, I'm Your Name
+                  </h2>
+                  <p
+                    class="text-2xl text-black leading-relaxed font-normal mb-8"
+                  >
+                    I'm a developer passionate about creating seamless,
+                    interactive web experiences that feel alive.
+                  </p>
+                  <p
+                    class="text-lg text-black/60 leading-relaxed font-normal mb-6"
+                  >
+                    Every project is an opportunity to push boundaries with
+                    modern tools, thoughtful animations, and clean code.
+                  </p>
+                  <p
+                    class="text-lg text-black/60 leading-relaxed font-normal mb-6"
+                  >
+                    With years of experience in web development, I specialize in
+                    building modern, responsive websites that not only look
+                    beautiful but also deliver exceptional user experiences.
+                  </p>
+                  <p class="text-lg text-black/60 leading-relaxed font-normal">
+                    When I'm not coding, you can find me exploring new
+                    technologies, contributing to open-source projects, or
+                    sharing knowledge with the developer community.
+                  </p>
+                </div>
 
-      <!-- ABOUT CONTENT -->
-      <section class="pb-40 pt-40 bg-swiss-gray">
-        <div class="max-w-6xl mx-auto px-8 lg:px-16">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
-            <div class="about-text lg:col-span-7">
-              <h2 class="text-4xl sm:text-5xl lg:text-6xl font-normal mb-8 leading-[1.1] tracking-tight">
-                Hello, I'm Your Name
+                <div class="about-skills space-y-4 lg:col-span-5">
+                  <div
+                    class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5"
+                  >
+                    <h3
+                      class="text-xl font-medium mb-2 uppercase tracking-wider"
+                    >
+                      Modern Frameworks
+                    </h3>
+                    <p class="text-sm font-normal opacity-60">
+                      React, Vue, Next.js
+                    </p>
+                  </div>
+                  <div
+                    class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5"
+                  >
+                    <h3
+                      class="text-xl font-medium mb-2 uppercase tracking-wider"
+                    >
+                      Design Systems
+                    </h3>
+                    <p class="text-sm font-normal opacity-60">
+                      TailwindCSS, Component Libraries
+                    </p>
+                  </div>
+                  <div
+                    class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5"
+                  >
+                    <h3
+                      class="text-xl font-medium mb-2 uppercase tracking-wider"
+                    >
+                      Motion & Animation
+                    </h3>
+                    <p class="text-sm font-normal opacity-60">
+                      GSAP, Framer Motion
+                    </p>
+                  </div>
+                  <div
+                    class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5"
+                  >
+                    <h3
+                      class="text-xl font-medium mb-2 uppercase tracking-wider"
+                    >
+                      Backend & APIs
+                    </h3>
+                    <p class="text-sm font-normal opacity-60">
+                      Node.js, Express, REST APIs
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- EXPERIENCE SECTION -->
+          <section class="py-40 bg-white">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+            >
+              <h2
+                class="experience-title text-5xl sm:text-6xl lg:text-7xl font-normal mb-20 tracking-tight leading-[0.95]"
+              >
+                Experience
               </h2>
-              <p class="text-2xl text-black leading-relaxed font-normal mb-8">
-                I'm a developer passionate about creating seamless, interactive web experiences that feel alive.
-              </p>
-              <p class="text-lg text-black/60 leading-relaxed font-normal mb-6">
-                Every project is an opportunity to push boundaries with modern tools, thoughtful animations, and clean code.
-              </p>
-              <p class="text-lg text-black/60 leading-relaxed font-normal mb-6">
-                With years of experience in web development, I specialize in building modern, responsive websites that not only look beautiful but also deliver exceptional user experiences.
-              </p>
-              <p class="text-lg text-black/60 leading-relaxed font-normal">
-                When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.
-              </p>
-            </div>
 
-            <div class="about-skills space-y-4 lg:col-span-5">
-              <div class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5">
-                <h3 class="text-xl font-medium mb-2 uppercase tracking-wider">Modern Frameworks</h3>
-                <p class="text-sm font-normal opacity-60">React, Vue, Next.js</p>
+              <div class="space-y-16 experience-list">
+                <div
+                  class="experience-item border-l-2 border-black/20 pl-8 hover:border-black transition-colors duration-500"
+                >
+                  <div
+                    class="text-sm uppercase tracking-wider text-black/50 mb-2"
+                  >
+                    2022 - Present
+                  </div>
+                  <h3 class="text-3xl font-medium mb-3">
+                    Senior Frontend Developer
+                  </h3>
+                  <p class="text-lg text-black/60 mb-4">Tech Company Inc.</p>
+                  <p class="text-base text-black/60 leading-relaxed">
+                    Leading frontend development for enterprise applications,
+                    implementing modern design systems and improving performance
+                    metrics by 40%.
+                  </p>
+                </div>
+
+                <div
+                  class="experience-item border-l-2 border-black/20 pl-8 hover:border-black transition-colors duration-500"
+                >
+                  <div
+                    class="text-sm uppercase tracking-wider text-black/50 mb-2"
+                  >
+                    2020 - 2022
+                  </div>
+                  <h3 class="text-3xl font-medium mb-3">
+                    Full Stack Developer
+                  </h3>
+                  <p class="text-lg text-black/60 mb-4">Creative Agency</p>
+                  <p class="text-base text-black/60 leading-relaxed">
+                    Developed custom web applications for clients across various
+                    industries, focusing on responsive design and seamless user
+                    experiences.
+                  </p>
+                </div>
+
+                <div
+                  class="experience-item border-l-2 border-black/20 pl-8 hover:border-black transition-colors duration-500"
+                >
+                  <div
+                    class="text-sm uppercase tracking-wider text-black/50 mb-2"
+                  >
+                    2018 - 2020
+                  </div>
+                  <h3 class="text-3xl font-medium mb-3">Junior Developer</h3>
+                  <p class="text-lg text-black/60 mb-4">Startup Studio</p>
+                  <p class="text-base text-black/60 leading-relaxed">
+                    Contributed to multiple startup projects, learning modern
+                    web technologies and agile development practices.
+                  </p>
+                </div>
               </div>
-              <div class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5">
-                <h3 class="text-xl font-medium mb-2 uppercase tracking-wider">Design Systems</h3>
-                <p class="text-sm font-normal opacity-60">TailwindCSS, Component Libraries</p>
+            </div>
+          </section>
+
+          <footer class="py-16 border-t-2 border-black/10 bg-swiss-gray">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+            >
+              <div
+                class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-black/50 font-normal"
+              >
+                <div>© <span id="year"></span> Your Name</div>
+                <div>Crafted with care</div>
               </div>
-              <div class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5">
-                <h3 class="text-xl font-medium mb-2 uppercase tracking-wider">Motion & Animation</h3>
-                <p class="text-sm font-normal opacity-60">GSAP, Framer Motion</p>
-              </div>
-              <div class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5">
-                <h3 class="text-xl font-medium mb-2 uppercase tracking-wider">Backend & APIs</h3>
-                <p class="text-sm font-normal opacity-60">Node.js, Express, REST APIs</p>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- EXPERIENCE SECTION -->
-      <section class="py-40 bg-white">
-        <div class="max-w-6xl mx-auto px-8 lg:px-16">
-          <h2 class="experience-title text-5xl sm:text-6xl lg:text-7xl font-normal mb-20 tracking-tight leading-[0.95]">
-            Experience
-          </h2>
-          
-          <div class="space-y-16 experience-list">
-            <div class="experience-item border-l-2 border-black/20 pl-8 hover:border-black transition-colors duration-500">
-              <div class="text-sm uppercase tracking-wider text-black/50 mb-2">2022 - Present</div>
-              <h3 class="text-3xl font-medium mb-3">Senior Frontend Developer</h3>
-              <p class="text-lg text-black/60 mb-4">Tech Company Inc.</p>
-              <p class="text-base text-black/60 leading-relaxed">
-                Leading frontend development for enterprise applications, implementing modern design systems and improving performance metrics by 40%.
-              </p>
-            </div>
-
-            <div class="experience-item border-l-2 border-black/20 pl-8 hover:border-black transition-colors duration-500">
-              <div class="text-sm uppercase tracking-wider text-black/50 mb-2">2020 - 2022</div>
-              <h3 class="text-3xl font-medium mb-3">Full Stack Developer</h3>
-              <p class="text-lg text-black/60 mb-4">Creative Agency</p>
-              <p class="text-base text-black/60 leading-relaxed">
-                Developed custom web applications for clients across various industries, focusing on responsive design and seamless user experiences.
-              </p>
-            </div>
-
-            <div class="experience-item border-l-2 border-black/20 pl-8 hover:border-black transition-colors duration-500">
-              <div class="text-sm uppercase tracking-wider text-black/50 mb-2">2018 - 2020</div>
-              <h3 class="text-3xl font-medium mb-3">Junior Developer</h3>
-              <p class="text-lg text-black/60 mb-4">Startup Studio</p>
-              <p class="text-base text-black/60 leading-relaxed">
-                Contributed to multiple startup projects, learning modern web technologies and agile development practices.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer class="py-16 border-t-2 border-black/10 bg-swiss-gray">
-        <div class="max-w-7xl mx-auto px-8 lg:px-16">
-          <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-black/50 font-normal">
-            <div>© <span id="year"></span> Your Name</div>
-            <div>Crafted with care</div>
-          </div>
-        </div>
-      </footer>
-    </main>
-    </div>
+          </footer>
+        </main>
+      </div>
     </div>
 
     <script>
@@ -343,12 +479,12 @@
 
       // Initialize ScrollSmoother
       let smoother;
-      
+
       function initializeSmoother() {
         if (window.innerWidth > 768) {
           smoother = ScrollSmoother.create({
-            wrapper: '#smooth-wrapper',
-            content: '#smooth-content',
+            wrapper: "#smooth-wrapper",
+            content: "#smooth-content",
             smooth: 2.5,
             effects: true,
             smoothTouch: 0.1,
@@ -357,106 +493,124 @@
         }
       }
 
-      document.body.style.overflow = 'auto';
-      
+      document.body.style.overflow = "auto";
+
       setTimeout(() => {
         initializeSmoother();
       }, 100);
 
       // Page animations - slower
-      gsap.from('.about-title', {
+      gsap.from(".about-title", {
         y: 100,
         opacity: 0,
         duration: 1.8,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
-      gsap.from('.about-text', {
+      gsap.from(".about-text", {
         x: -50,
         opacity: 0,
         duration: 1.8,
         delay: 0.4,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
-      gsap.from('.skill-item', {
+      gsap.from(".skill-item", {
         x: 50,
         opacity: 0,
         duration: 1.8,
         stagger: 0.3,
         delay: 0.6,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
       // Scroll-triggered animations for experience section
-      gsap.from('.experience-title', {
+      gsap.from(".experience-title", {
         scrollTrigger: {
-          trigger: '.experience-title',
-          start: 'top 80%',
+          trigger: ".experience-title",
+          start: "top 80%",
         },
         y: 50,
         opacity: 0,
         duration: 1.8,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
-      gsap.from('.experience-item', {
+      gsap.from(".experience-item", {
         scrollTrigger: {
-          trigger: '.experience-list',
-          start: 'top 80%',
+          trigger: ".experience-list",
+          start: "top 80%",
         },
         x: -30,
         opacity: 0,
         duration: 1.5,
         stagger: 0.3,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
       // Custom cursor
-      const cursor = document.querySelector('.custom-cursor');
-      const follower = document.querySelector('.cursor-follower');
-      const followerText = document.querySelector('.follower__content');
+      const cursor = document.querySelector(".custom-cursor");
+      const follower = document.querySelector(".cursor-follower");
+      const followerText = document.querySelector(".follower__content");
 
-      gsap.set(".cursor-follower", {xPercent: -50, yPercent: -50});
-      gsap.set(".custom-cursor", {xPercent: -50, yPercent: -50});
+      gsap.set(".cursor-follower", { xPercent: -50, yPercent: -50 });
+      gsap.set(".custom-cursor", { xPercent: -50, yPercent: -50 });
 
-      let cursorXTo = gsap.quickTo(".custom-cursor", "x", {duration: 0.5, ease: "power2"}),
-          cursorYTo = gsap.quickTo(".custom-cursor", "y", {duration: 0.5, ease: "power2"}),
-          followerXTo = gsap.quickTo(".cursor-follower", "x", {duration: 0.9, ease: "power2"}),
-          followerYTo = gsap.quickTo(".cursor-follower", "y", {duration: 0.9, ease: "power2"});
+      let cursorXTo = gsap.quickTo(".custom-cursor", "x", {
+          duration: 0.5,
+          ease: "power2",
+        }),
+        cursorYTo = gsap.quickTo(".custom-cursor", "y", {
+          duration: 0.5,
+          ease: "power2",
+        }),
+        followerXTo = gsap.quickTo(".cursor-follower", "x", {
+          duration: 0.9,
+          ease: "power2",
+        }),
+        followerYTo = gsap.quickTo(".cursor-follower", "y", {
+          duration: 0.9,
+          ease: "power2",
+        });
 
-      window.addEventListener('mousemove', (e) => {
-        cursorXTo(e.clientX);
-        cursorYTo(e.clientY);
-        followerXTo(e.clientX);
-        followerYTo(e.clientY);
-      }, { passive: true });
+      window.addEventListener(
+        "mousemove",
+        (e) => {
+          cursorXTo(e.clientX);
+          cursorYTo(e.clientY);
+          followerXTo(e.clientX);
+          followerYTo(e.clientY);
+        },
+        { passive: true }
+      );
 
       // Hover effects for interactive elements
       function addCursorHoverEffect(element) {
-        element.addEventListener('mouseenter', () => {
+        element.addEventListener("mouseenter", () => {
           gsap.to(cursor, {
             scale: 3,
             duration: 0.6,
-            ease: 'power2.out'
+            ease: "power2.out",
           });
         });
-        
-        element.addEventListener('mouseleave', () => {
+
+        element.addEventListener("mouseleave", () => {
           gsap.to(cursor, {
             scale: 1,
             duration: 0.6,
-            ease: 'power2.out'
+            ease: "power2.out",
           });
         });
       }
 
-      const interactiveSelectors = 'a, button, .skill-item, .experience-item';
-      
+      const interactiveSelectors = "a, button, .skill-item, .experience-item";
+
       function applyHoverEffects() {
-        document.querySelectorAll(interactiveSelectors).forEach(addCursorHoverEffect);
+        document
+          .querySelectorAll(interactiveSelectors)
+          .forEach(addCursorHoverEffect);
       }
-      
+
       applyHoverEffects();
       setTimeout(applyHoverEffects, 100);
       setTimeout(applyHoverEffects, 500);
@@ -469,7 +623,10 @@
               if (node.matches && node.matches(interactiveSelectors)) {
                 addCursorHoverEffect(node);
               }
-              node.querySelectorAll && node.querySelectorAll(interactiveSelectors).forEach(addCursorHoverEffect);
+              node.querySelectorAll &&
+                node
+                  .querySelectorAll(interactiveSelectors)
+                  .forEach(addCursorHoverEffect);
             }
           });
         });
@@ -477,7 +634,7 @@
 
       observer.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: true,
       });
 
       // Mobile menu

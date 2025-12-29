@@ -4,10 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Contact — Your Name</title>
-    <meta
-      name="description"
-      content="Get in touch with me"
-    />
+    <meta name="description" content="Get in touch with me" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -16,7 +13,25 @@
           extend: {
             colors: {
               accent: "#FFFFFF",
-              'swiss-gray': '#0A0A0A',
+              "swiss-gray": "#0A0A0A",
+            },
+            screens: {
+              sm: "600px",
+              md: "840px",
+              lg: "1024px",
+              xl: "1440px",
+            },
+            maxWidth: {
+              "mdc-sm": "600px",
+              "mdc-md": "840px",
+              "mdc-lg": "1024px",
+              "mdc-xl": "1440px",
+            },
+            spacing: {
+              "mdc-margin-xs": "1rem", // 16px
+              "mdc-margin-sm": "1.5rem", // 24px
+              "mdc-gutter-xs": "1rem",
+              "mdc-gutter-sm": "1.5rem",
             },
           },
         },
@@ -27,7 +42,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       html {
@@ -37,7 +55,8 @@
         cursor: none;
       }
       body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Arial', sans-serif;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont,
+          "Helvetica Neue", "Arial", sans-serif;
         letter-spacing: -0.01em;
         background: #000;
         color: #fff;
@@ -108,14 +127,14 @@
           display: none;
         }
       }
-      
+
       /* Navbar animations */
       .nav-link {
         position: relative;
         overflow: hidden;
       }
       .nav-link::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -2px;
         left: 0;
@@ -128,7 +147,7 @@
       .nav-link:hover::after {
         transform: translateX(0);
       }
-      
+
       /* Burger menu animation */
       .burger-line {
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -144,14 +163,14 @@
       .burger-active .burger-line:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
       }
-      
+
       /* Language switcher */
       .lang-btn {
         position: relative;
         overflow: hidden;
       }
       .lang-btn::before {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
         background: white;
@@ -180,18 +199,21 @@
       }
 
       /* Form inputs */
-      input, textarea {
+      input,
+      textarea {
         background: transparent;
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: white;
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       }
-      input:focus, textarea:focus {
+      input:focus,
+      textarea:focus {
         outline: none;
         border-color: white;
         background: rgba(255, 255, 255, 0.05);
       }
-      input::placeholder, textarea::placeholder {
+      input::placeholder,
+      textarea::placeholder {
         color: rgba(255, 255, 255, 0.4);
       }
     </style>
@@ -205,18 +227,25 @@
     </div>
 
     <!-- NAVBAR -->
-    <header class="fixed top-0 w-full z-30 bg-black/80 backdrop-blur-md border-b border-white/10">
-      <div class="max-w-7xl mx-auto px-8 lg:px-16">
+    <header
+      class="fixed top-0 w-full z-30 bg-black/80 backdrop-blur-md border-b border-white/10"
+    >
+      <div class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm">
         <div class="grid grid-cols-3 items-center h-20">
           <!-- Left: Name -->
           <div class="flex justify-start">
-            <a href="index.html" class="text-white font-medium text-base tracking-tight link-hover">
+            <a
+              href="index.html"
+              class="text-white font-medium text-base tracking-tight link-hover"
+            >
               Your Name
             </a>
           </div>
 
           <!-- Center: Navigation (Desktop) -->
-          <nav class="hidden md:flex items-center justify-center gap-12 text-sm font-normal text-white uppercase tracking-wider">
+          <nav
+            class="hidden md:flex items-center justify-center gap-12 text-sm font-normal text-white uppercase tracking-wider"
+          >
             <a class="nav-link link-hover" href="about.html">About</a>
             <a class="nav-link link-hover" href="projects.html">Projects</a>
             <a class="nav-link link-hover" href="contact.html">Contact</a>
@@ -224,12 +253,17 @@
 
           <!-- Right: Language Switcher -->
           <div class="flex justify-end items-center gap-3">
-            <button class="lang-btn w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white transition-colors duration-300">
+            <button
+              class="lang-btn w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white transition-colors duration-300"
+            >
               <span class="text-xs font-medium uppercase">EN</span>
             </button>
-            
+
             <!-- Mobile Menu Toggle -->
-            <button id="menuToggle" class="md:hidden text-white w-10 h-10 flex flex-col items-center justify-center gap-2">
+            <button
+              id="menuToggle"
+              class="md:hidden text-white w-10 h-10 flex flex-col items-center justify-center gap-2"
+            >
               <span class="burger-line w-6 h-0.5 bg-white block"></span>
               <span class="burger-line w-6 h-0.5 bg-white block"></span>
               <span class="burger-line w-6 h-0.5 bg-white block"></span>
@@ -239,56 +273,104 @@
       </div>
 
       <!-- Mobile Menu -->
-      <div id="mobileMenu" class="md:hidden hidden bg-black/95 backdrop-blur-lg border-t border-white/10">
-        <div class="px-8 py-8 space-y-6">
-          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="about.html">About</a>
-          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="projects.html">Projects</a>
-          <a class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500" href="contact.html">Contact</a>
+      <div
+        id="mobileMenu"
+        class="md:hidden hidden bg-black/95 backdrop-blur-lg border-t border-white/10"
+      >
+        <div class="px-mdc-margin-xs py-8 space-y-6">
+          <a
+            class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500"
+            href="about.html"
+            >About</a
+          >
+          <a
+            class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500"
+            href="projects.html"
+            >Projects</a
+          >
+          <a
+            class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500"
+            href="contact.html"
+            >Contact</a
+          >
         </div>
       </div>
     </header>
 
     <main>
       <!-- CONTACT SECTION -->
-      <section class="h-screen flex items-center justify-center relative overflow-hidden bg-black pt-20">
-        <div class="max-w-6xl mx-auto px-8 lg:px-16 w-full">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            
+      <section
+        class="h-screen flex items-center justify-center relative overflow-hidden bg-black pt-20"
+      >
+        <div
+          class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm w-full"
+        >
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 gap-mdc-gutter-xs md:gap-mdc-gutter-sm items-center"
+          >
             <!-- Left: Contact Info -->
             <div class="contact-info space-y-12">
               <div class="overflow-hidden">
-                <h1 class="contact-title text-6xl sm:text-7xl lg:text-8xl font-normal leading-[0.9] tracking-tight">
-                  Let's<br/>Connect
+                <h1
+                  class="contact-title text-6xl sm:text-7xl lg:text-8xl font-normal leading-[0.9] tracking-tight"
+                >
+                  Let's<br />Connect
                 </h1>
               </div>
-              
+
               <div class="contact-desc opacity-0">
-                <p class="text-xl text-white/70 font-normal leading-relaxed mb-8">
-                  Have a project in mind or just want to chat? I'd love to hear from you.
+                <p
+                  class="text-xl text-white/70 font-normal leading-relaxed mb-8"
+                >
+                  Have a project in mind or just want to chat? I'd love to hear
+                  from you.
                 </p>
               </div>
 
               <div class="contact-links space-y-6 opacity-0">
-                <a href="mailto:your.email@example.com" class="contact-item flex items-center gap-4 text-lg hover:text-white/70">
-                  <span class="text-sm uppercase tracking-[0.2em] text-white/50">Email</span>
+                <a
+                  href="mailto:your.email@example.com"
+                  class="contact-item flex items-center gap-4 text-lg hover:text-white/70"
+                >
+                  <span class="text-sm uppercase tracking-[0.2em] text-white/50"
+                    >Email</span
+                  >
                   <span class="flex-1 border-b border-white/20"></span>
                   <span>your.email@example.com</span>
                 </a>
-                
-                <a href="https://twitter.com/yourhandle" target="_blank" class="contact-item flex items-center gap-4 text-lg hover:text-white/70">
-                  <span class="text-sm uppercase tracking-[0.2em] text-white/50">Twitter</span>
+
+                <a
+                  href="https://twitter.com/yourhandle"
+                  target="_blank"
+                  class="contact-item flex items-center gap-4 text-lg hover:text-white/70"
+                >
+                  <span class="text-sm uppercase tracking-[0.2em] text-white/50"
+                    >Twitter</span
+                  >
                   <span class="flex-1 border-b border-white/20"></span>
                   <span>@yourhandle</span>
                 </a>
-                
-                <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-item flex items-center gap-4 text-lg hover:text-white/70">
-                  <span class="text-sm uppercase tracking-[0.2em] text-white/50">LinkedIn</span>
+
+                <a
+                  href="https://linkedin.com/in/yourprofile"
+                  target="_blank"
+                  class="contact-item flex items-center gap-4 text-lg hover:text-white/70"
+                >
+                  <span class="text-sm uppercase tracking-[0.2em] text-white/50"
+                    >LinkedIn</span
+                  >
                   <span class="flex-1 border-b border-white/20"></span>
                   <span>/in/yourprofile</span>
                 </a>
-                
-                <a href="https://github.com/yourusername" target="_blank" class="contact-item flex items-center gap-4 text-lg hover:text-white/70">
-                  <span class="text-sm uppercase tracking-[0.2em] text-white/50">GitHub</span>
+
+                <a
+                  href="https://github.com/yourusername"
+                  target="_blank"
+                  class="contact-item flex items-center gap-4 text-lg hover:text-white/70"
+                >
+                  <span class="text-sm uppercase tracking-[0.2em] text-white/50"
+                    >GitHub</span
+                  >
                   <span class="flex-1 border-b border-white/20"></span>
                   <span>@yourusername</span>
                 </a>
@@ -299,47 +381,58 @@
             <div class="contact-form opacity-0">
               <form class="space-y-6">
                 <div>
-                  <label for="name" class="block text-xs uppercase tracking-[0.2em] text-white/50 mb-3">Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
+                  <label
+                    for="name"
+                    class="block text-xs uppercase tracking-[0.2em] text-white/50 mb-3"
+                    >Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
                     class="w-full px-6 py-4 text-lg"
                     placeholder="Your name"
                   />
                 </div>
-                
+
                 <div>
-                  <label for="email" class="block text-xs uppercase tracking-[0.2em] text-white/50 mb-3">Email</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
+                  <label
+                    for="email"
+                    class="block text-xs uppercase tracking-[0.2em] text-white/50 mb-3"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
                     class="w-full px-6 py-4 text-lg"
                     placeholder="your@email.com"
                   />
                 </div>
-                
+
                 <div>
-                  <label for="message" class="block text-xs uppercase tracking-[0.2em] text-white/50 mb-3">Message</label>
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    rows="6" 
+                  <label
+                    for="message"
+                    class="block text-xs uppercase tracking-[0.2em] text-white/50 mb-3"
+                    >Message</label
+                  >
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
                     class="w-full px-6 py-4 text-lg resize-none"
                     placeholder="Tell me about your project..."
                   ></textarea>
                 </div>
-                
-                <button 
-                  type="submit" 
+
+                <button
+                  type="submit"
                   class="w-full px-12 py-5 bg-white text-black text-xs tracking-[0.2em] uppercase font-medium hover:bg-white/80 transition-all duration-500 link-hover"
                 >
                   Send Message
                 </button>
               </form>
             </div>
-
           </div>
         </div>
       </section>
@@ -349,87 +442,105 @@
       gsap.registerPlugin();
 
       // Page animations
-      gsap.from('.contact-title', {
+      gsap.from(".contact-title", {
         y: 100,
         opacity: 0,
         duration: 1.5,
         delay: 0.3,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
-      gsap.to('.contact-desc', {
+      gsap.to(".contact-desc", {
         opacity: 1,
         y: 0,
         duration: 1.5,
         delay: 0.8,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
-      gsap.to('.contact-links', {
+      gsap.to(".contact-links", {
         opacity: 1,
         y: 0,
         duration: 1.5,
         delay: 1.2,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
-      gsap.to('.contact-form', {
+      gsap.to(".contact-form", {
         opacity: 1,
         x: 0,
         duration: 1.5,
         delay: 0.8,
-        ease: 'power2.out'
+        ease: "power2.out",
       });
 
       // Custom cursor
-      const cursor = document.querySelector('.custom-cursor');
-      const follower = document.querySelector('.cursor-follower');
-      const followerText = document.querySelector('.follower__content');
-      
+      const cursor = document.querySelector(".custom-cursor");
+      const follower = document.querySelector(".cursor-follower");
+      const followerText = document.querySelector(".follower__content");
+
       let isHovering = false;
 
-      gsap.set(".cursor-follower", {xPercent: -50, yPercent: -50});
-      gsap.set(".custom-cursor", {xPercent: -50, yPercent: -50});
+      gsap.set(".cursor-follower", { xPercent: -50, yPercent: -50 });
+      gsap.set(".custom-cursor", { xPercent: -50, yPercent: -50 });
 
-      let cursorXTo = gsap.quickTo(".custom-cursor", "x", {duration: 0.5, ease: "power2"}),
-          cursorYTo = gsap.quickTo(".custom-cursor", "y", {duration: 0.5, ease: "power2"}),
-          followerXTo = gsap.quickTo(".cursor-follower", "x", {duration: 0.9, ease: "power2"}),
-          followerYTo = gsap.quickTo(".cursor-follower", "y", {duration: 0.9, ease: "power2"});
+      let cursorXTo = gsap.quickTo(".custom-cursor", "x", {
+          duration: 0.5,
+          ease: "power2",
+        }),
+        cursorYTo = gsap.quickTo(".custom-cursor", "y", {
+          duration: 0.5,
+          ease: "power2",
+        }),
+        followerXTo = gsap.quickTo(".cursor-follower", "x", {
+          duration: 0.9,
+          ease: "power2",
+        }),
+        followerYTo = gsap.quickTo(".cursor-follower", "y", {
+          duration: 0.9,
+          ease: "power2",
+        });
 
-      window.addEventListener('mousemove', (e) => {
-        cursorXTo(e.clientX);
-        cursorYTo(e.clientY);
-        followerXTo(e.clientX);
-        followerYTo(e.clientY);
-      }, { passive: true });
+      window.addEventListener(
+        "mousemove",
+        (e) => {
+          cursorXTo(e.clientX);
+          cursorYTo(e.clientY);
+          followerXTo(e.clientX);
+          followerYTo(e.clientY);
+        },
+        { passive: true }
+      );
 
       // Hover effects for interactive elements
       function addCursorHoverEffect(element) {
-        element.addEventListener('mouseenter', () => {
+        element.addEventListener("mouseenter", () => {
           isHovering = true;
           gsap.to(cursor, {
             scale: 3,
             duration: 0.6,
-            ease: 'power2.out'
+            ease: "power2.out",
           });
         });
-        
-        element.addEventListener('mouseleave', () => {
+
+        element.addEventListener("mouseleave", () => {
           isHovering = false;
           gsap.to(cursor, {
             scale: 1,
             duration: 0.6,
-            ease: 'power2.out'
+            ease: "power2.out",
           });
         });
       }
 
-      const interactiveSelectors = 'a, button, input, textarea';
-      
+      const interactiveSelectors = "a, button, input, textarea";
+
       function applyHoverEffects() {
-        document.querySelectorAll(interactiveSelectors).forEach(addCursorHoverEffect);
+        document
+          .querySelectorAll(interactiveSelectors)
+          .forEach(addCursorHoverEffect);
       }
-      
+
       applyHoverEffects();
 
       // Mobile menu
@@ -441,9 +552,9 @@
       });
 
       // Form submission
-      document.querySelector('form').addEventListener('submit', (e) => {
+      document.querySelector("form").addEventListener("submit", (e) => {
         e.preventDefault();
-        alert('Form submitted! (This is a demo)');
+        alert("Form submitted! (This is a demo)");
       });
     </script>
   </body>

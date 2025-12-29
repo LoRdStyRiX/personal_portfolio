@@ -18,6 +18,24 @@
               accent: "#000000",
               "swiss-gray": "#F5F5F5",
             },
+            screens: {
+              sm: "600px",
+              md: "840px",
+              lg: "1024px",
+              xl: "1440px",
+            },
+            maxWidth: {
+              "mdc-sm": "600px",
+              "mdc-md": "840px",
+              "mdc-lg": "1024px",
+              "mdc-xl": "1440px",
+            },
+            spacing: {
+              "mdc-margin-xs": "1rem", // 16px
+              "mdc-margin-sm": "1.5rem", // 24px
+              "mdc-gutter-xs": "1rem",
+              "mdc-gutter-sm": "1.5rem",
+            },
           },
         },
       };
@@ -229,7 +247,9 @@
         <header
           class="fixed top-0 w-full z-30 bg-white/80 backdrop-blur-md border-b border-black/10"
         >
-          <div class="max-w-7xl mx-auto px-8 lg:px-16">
+          <div
+            class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+          >
             <div class="grid grid-cols-3 items-center h-20">
               <!-- Left: Name -->
               <div class="flex justify-start">
@@ -276,7 +296,7 @@
             id="mobileMenu"
             class="md:hidden hidden bg-white/95 backdrop-blur-lg border-t border-black/10"
           >
-            <div class="px-8 py-8 space-y-6">
+            <div class="px-mdc-margin-xs py-8 space-y-6">
               <a
                 class="block text-xl nav-link uppercase tracking-wider hover:translate-x-2 transition-transform duration-500"
                 href="about.html"
@@ -302,10 +322,12 @@
             id="hero"
             class="h-screen flex items-center justify-center relative overflow-hidden bg-white"
           >
-            <div class="max-w-6xl mx-auto px-8 lg:px-16 relative z-10">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm relative z-10"
+            >
               <div class="hero-content">
                 <h1
-                  class="text-7xl sm:text-8xl lg:text-9xl xl:text-[11rem] font-normal leading-[0.9] mb-20 reveal-text tracking-tight"
+                  class="text-7xl pt-20 sm:text-8xl lg:text-9xl xl:text-[11rem] font-normal leading-[0.9] mb-20 reveal-text tracking-tight"
                 >
                   <span class="hero-word">rei's</span><br />
                   <span class="hero-word">personal</span><br />
@@ -345,9 +367,13 @@
 
           <!-- ABOUT PREVIEW -->
           <section class="py-40 relative bg-swiss-gray">
-            <div class="max-w-6xl mx-auto px-8 lg:px-16">
-              <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
-                <div class="about-text lg:col-span-7">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+            >
+              <div
+                class="grid grid-cols-1 md:grid-cols-12 gap-mdc-gutter-xs md:gap-mdc-gutter-sm items-start"
+              >
+                <div class="about-text md:col-span-7">
                   <h2
                     class="text-6xl sm:text-7xl lg:text-8xl font-normal mb-12 leading-[0.95] tracking-tight"
                   >
@@ -373,7 +399,7 @@
                   </a>
                 </div>
 
-                <div class="about-skills space-y-4 lg:col-span-5">
+                <div class="about-skills space-y-4 md:col-span-5">
                   <div
                     class="skill-item p-10 bg-white hover:bg-black hover:text-white transition-all duration-500 border border-black/5"
                   >
@@ -417,7 +443,9 @@
 
           <!-- PROJECTS PREVIEW -->
           <section class="py-40 bg-white">
-            <div class="max-w-7xl mx-auto px-8 lg:px-16">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+            >
               <div class="mb-24 projects-header">
                 <h2
                   class="text-6xl sm:text-7xl lg:text-8xl font-normal mb-8 tracking-tight leading-[0.95]"
@@ -428,7 +456,7 @@
               </div>
 
               <div
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-mdc-gutter-xs md:gap-mdc-gutter-sm mb-16"
               >
                 <!-- Gallery Item 1 -->
                 <div
@@ -515,7 +543,9 @@
           </section>
 
           <footer class="py-16 border-t-2 border-black/10 bg-white">
-            <div class="max-w-7xl mx-auto px-8 lg:px-16">
+            <div
+              class="max-w-mdc-xl mx-auto px-mdc-margin-xs md:px-mdc-margin-sm"
+            >
               <div
                 class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-black/50 font-normal"
               >
